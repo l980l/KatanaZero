@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Script">
+      <UniqueIdentifier>{585f2ba7-813f-4532-9a95-b2967ae06511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Default">
+      <UniqueIdentifier>{6546fd48-44d9-4960-9249-56cca8c1ccc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptMgr">
+      <UniqueIdentifier>{78d2676d-e9d6-47ca-8d90-52e8d457d264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LevelSaveLoad">
+      <UniqueIdentifier>{0c4e4267-a655-412b-a523-33907aab0fd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Tile">
+      <UniqueIdentifier>{6b80dae8-ad12-4642-a773-c584ad8874e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Monster">
+      <UniqueIdentifier>{6e5fa7d2-678d-416b-9cd4-ae56459e59ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\Player">
+      <UniqueIdentifier>{ea47366b-da42-42e9-8660-b404c4b891cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\NoUse">
+      <UniqueIdentifier>{4b40dc12-2aa1-47eb-a82c-94d81a4ce066}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Default</Filter>
+    </ClInclude>
+    <ClInclude Include="CScriptMgr.h">
+      <Filter>ScriptMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CGravityScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CMainCameraScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CLevelSaveLoad2.h">
+      <Filter>LevelSaveLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="CCeilingScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CDescendableFloorScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CDoorScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CJumpWallScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormalFloorScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormalWallScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CStairScript.h">
+      <Filter>Script\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterCopScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterGruntScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterPompScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterAttackRangeScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterAttackScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterRayScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerAttackScript.h">
+      <Filter>Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Script\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CMonsterScript.h">
+      <Filter>Script\NoUse</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissileScript.h">
+      <Filter>Script\NoUse</Filter>
+    </ClInclude>
+    <ClInclude Include="CMineScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CRifleScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CHeadhunterScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CBulletScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CGrenadeScript.h">
+      <Filter>Script\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="CStartMenuScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraZoomScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CMouseScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CBatteryScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimerScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="CNextLevelScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Default</Filter>
+    </ClCompile>
+    <ClCompile Include="CScriptMgr.cpp">
+      <Filter>ScriptMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CGravityScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CMainCameraScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CLevelSaveLoad2.cpp">
+      <Filter>LevelSaveLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="CCeilingScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CDescendableFloorScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CDoorScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CJumpWallScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CNormalFloorScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CNormalWallScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CStairScript.cpp">
+      <Filter>Script\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterCopScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterGruntScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterPompScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterAttackRangeScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterAttackScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterRayScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerAttackScript.cpp">
+      <Filter>Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CMonsterScript.cpp">
+      <Filter>Script\NoUse</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissileScript.cpp">
+      <Filter>Script\NoUse</Filter>
+    </ClCompile>
+    <ClCompile Include="CMineScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CRifleScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CHeadhunterScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CBulletScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CGrenadeScript.cpp">
+      <Filter>Script\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="CStartMenuScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraZoomScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CMouseScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CBatteryScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimerScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CNextLevelScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

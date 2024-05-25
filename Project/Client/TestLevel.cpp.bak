@@ -1,0 +1,281 @@
+#include "pch.h"
+#include "TestLevel.h"
+
+#include <Engine\CLevelMgr.h>
+#include <Engine\CLevel.h>
+#include <Engine\CLayer.h>
+#include <Engine\CGameObject.h>
+#include <Engine\components.h>
+
+#include <Engine\CResMgr.h>
+#include <Engine\CCollisionMgr.h>
+
+#include <Script\CPlayerScript.h>
+#include <Script\CMonsterScript.h>
+
+#include "CLevelSaveLoad.h"
+
+
+
+void CreateTestLevel()
+{
+	//return;
+
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurLevel();
+	pCurLevel->ChangeState(LEVEL_STATE::STOP);
+
+	// Layer 이름설정
+	pCurLevel->GetLayer(0)->SetName(L"Default");
+	pCurLevel->GetLayer(1)->SetName(L"Tile");
+	pCurLevel->GetLayer(2)->SetName(L"Player");
+	pCurLevel->GetLayer(3)->SetName(L"Monster");
+	pCurLevel->GetLayer(4)->SetName(L"PlayerProjectile");
+	pCurLevel->GetLayer(5)->SetName(L"MonsterProjectile");
+	pCurLevel->GetLayer(6)->SetName(L"Light");
+	pCurLevel->GetLayer(7)->SetName(L"MainCamera");
+	pCurLevel->GetLayer(8)->SetName(L"FloorLevel");
+	pCurLevel->GetLayer(9)->SetName(L"Item");			// 문, 아이템
+	pCurLevel->GetLayer(10)->SetName(L"Effect");			
+	pCurLevel->GetLayer(31)->SetName(L"ViewPort UI");
+
+
+	// Main Camera Object 생성
+	CGameObject* pMainCam = new CGameObject;
+	pMainCam->SetName(L"MainCamera");
+
+	pMainCam->AddComponent(new CTransform);
+	pMainCam->AddComponent(new CCamera);
+
+	pMainCam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pMainCam->Camera()->SetCameraIndex(0);		// MainCamera 로 설정
+	pMainCam->Camera()->SetLayerMaskAll(true);	// 모든 레이어 체크
+	pMainCam->Camera()->SetLayerMask(31, false);// UI Layer 는 렌더링하지 않는다.
+
+	SpawnGameObject(pMainCam, Vec3(0.f, 0.f, 0.f), L"MainCamera");
+
+	// UI cameara
+	CGameObject* pUICam = new CGameObject;
+	pUICam->SetName(L"UICamera");
+
+	pUICam->AddComponent(new CTransform);
+	pUICam->AddComponent(new CCamera);
+
+	pUICam->Camera()->SetProjType(PROJ_TYPE::ORTHOGRAPHIC);
+	pUICam->Camera()->SetCameraIndex(1);		
+	pUICam->Camera()->SetLayerMask(31, true);	
+
+	SpawnGameObject(pUICam, Vec3(0.f, 0.f, 0.f), L"ViewPort UI");
+
+
+	// 광원 추가
+	CGameObject* pLightObj = new CGameObject;
+	pLightObj->SetName(L"Point Light");
+
+	pLightObj->AddComponent(new CTransform);
+	pLightObj->AddComponent(new CLight2D);
+
+	pLightObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+	pLightObj->Transform()->SetRelativeRot(Vec3(0.f, 0.f, XM_PI / 2.f));
+
+	pLightObj->Light2D()->SetLightType(LIGHT_TYPE::POINT);
+	pLightObj->Light2D()->SetLightDiffuse(Vec3(1.f, 1.f, 1.f));
+	pLightObj->Light2D()->SetRadius(500.f);
+
+	SpawnGameObject(pLightObj, Vec3(0.f, 0.f, 0.f), L"Light");
+
+
+	// 오브젝트 생성
+	CGameObject* pParent = new CGameObject;
+	pParent->SetName(L"Effect_redline");
+	pParent->AddComponent(new CTransform);
+	pParent->AddComponent(new CMeshRender);
+	pParent->AddComponent(new CAnimator2D);
+
+	//pParent->AddComponent(new CCollider2D);
+	//pParent->Collider2D()->SetAbsolute(true);
+	//pParent->Collider2D()->SetOffsetScale(Vec2(150.f, 150.f));
+	//pParent->AddComponent(new CPlayerScript);
+
+	pParent->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
+
+	pParent->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pParent->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"material\\AnimLight.mtrl"));
+	
+	SpawnGameObject(pParent, Vec3(0.f, 0.f, 500.f), 10);
+
+	
+	/*pParent->Animator2D()->LoadAnim2D(L"animation\\Player_wallslide.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_precrouch.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_postcrouch.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_hurtfly_begin.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_crouch.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_fall.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_jump.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_idle_to_run.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_hurtfly_loop.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_idle_to_walk.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_hurtgrond.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_roll.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_attack.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_casual_walk.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_hurtrecover.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_stairfall.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_casual_idle.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_run.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_walk.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_doorbreak.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Player_idle.anim");*/
+
+	/*pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_Dash.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_jump.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_afterhurt.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_afterhurt_smoke.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_prejump.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_exit_door.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_wall_idle.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_teleport_out_sweep.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_diefly.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_hurtfly.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_recover.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_teleport_in.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_teleport_out.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_walljump_land.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_teleport_in_sweep.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_teleport_in_ground.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_teleport_out_ground.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_nohead.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_hurtground.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_walljump.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_dodgeroll.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_putarifle.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_putbackgun.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_takeoutgun.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_head_hurtfly.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_walk.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_shoot.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_dieland.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_predash.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_bomb_run.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_putoutrifle.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_reveal_bomb.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_hat_hurtfly.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_head_hurtground.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_hurt.anim"); 
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_dash_end_ground.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_idle.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_dead.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_sweep.anim");
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Headhunter_anim_rifle.anim");*/
+	
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Effect_Player_Cloud.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Effect_player_smoke.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Effect_player_slash.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Effect_landCloud.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Effect_bleeding.anim");
+	
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_walk.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_turn.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_run.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_leavestair.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_idle.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_hurtground.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_enterstair.anim");
+	//pParent->Animator2D()->LoadAnim2D(L"animation\\Cop_aim.anim");
+
+	pParent->Animator2D()->LoadAnim2D(L"animation\\Effect_redline.anim");
+	pParent->Animator2D()->Play(L"animation\\Effect_redline.anim", true);
+
+
+	/*CGameObject* pChild = new CGameObject;
+
+	pChild->SetName(L"Child");
+	pChild->AddComponent(new CTransform);
+	pChild->AddComponent(new CMeshRender);
+
+	pChild->Transform()->SetAbsolute(true);
+	pChild->Transform()->SetRelativePos(200.f, 0.f, 0.f);
+	pChild->Transform()->SetRelativeScale(100.f, 100.f, 1.f);
+
+	pChild->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pChild->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DLightMtrl"));
+	pChild->MeshRender()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\Fighter.bmp"));
+
+	pParent->AddChild(pChild);*/
+
+	// Monster
+	//CGameObject* pMonster = new CGameObject;
+	//pMonster->SetName(L"Monster");
+
+	//pMonster->AddComponent(new CTransform);
+	//pMonster->AddComponent(new CMeshRender);
+	//pMonster->AddComponent(new CCollider2D);
+	//pMonster->AddComponent(new CMonsterScript);
+
+	//pMonster->Transform()->SetRelativePos(Vec3(0.f, 250.f, 100.f));
+	//pMonster->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+	//pMonster->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	//pMonster->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"Std2DMtrl"));	
+
+	//pMonster->Collider2D()->SetAbsolute(true);
+	//pMonster->Collider2D()->SetOffsetScale(Vec2(100.f, 100.f));
+
+	//SpawnGameObject(pMonster, Vec3(0.f, 250.f, 100.f), L"Monster");
+
+
+	//// TileMap Object
+	//CGameObject* pTileMap = new CGameObject;
+	//pTileMap->SetName(L"TileMap");
+
+	//pTileMap->AddComponent(new CTransform);
+	//pTileMap->AddComponent(new CTileMap);
+
+	//pTileMap->Transform()->SetRelativePos(Vec3(0.f, 0.f, 600.f));
+	//pTileMap->Transform()->SetRelativeScale(Vec3(500.f, 500.f, 1.f));
+
+	////pTileMap->TileMap()->GetMaterial()->SetTexParam(TEX_0, CResMgr::GetInst()->FindRes<CTexture>(L"texture\\TILE.bmp"));
+	//pTileMap->TileMap()->SetSliceSize(Vec2(0.125f, 0.166f));
+	//pTileMap->TileMap()->SetTileCount(8, 8);
+
+	//SpawnGameObject(pTileMap, Vec3(0.f, 0.f, 600.f), L"Tile");
+
+
+	//// Particle Object
+	//CGameObject* pParticleObj = new CGameObject;
+	//pParticleObj->SetName(L"ParticleObject");
+	//pParticleObj->AddComponent(new CTransform);
+	//pParticleObj->AddComponent(new CParticleSystem);
+	////pParticleObj->ParticleSystem()->Load(L"particle\\ParticleObject.ptcl");
+
+	//SpawnGameObject(pParticleObj, Vec3(0.f, 0.f, 0.f), 0);
+
+
+	/*CGameObject* pPostProcess = new CGameObject;
+	pPostProcess->SetName(L"PostProcess");
+	pPostProcess->AddComponent(new CTransform);
+	pPostProcess->AddComponent(new CMeshRender);
+	pPostProcess->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pPostProcess->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"GrayMtrl"));
+	SpawnGameObject(pPostProcess, Vec3(0.f, 0.f, 0.f), 0);*/
+
+	CGameObject* pDistortion = new CGameObject;
+	pDistortion->SetName(L"Distortion");
+	pDistortion->AddComponent(new CTransform);
+	pDistortion->AddComponent(new CMeshRender);
+	pDistortion->Transform()->SetRelativeScale(200.f, 200.f, 1.f);
+	pDistortion->MeshRender()->SetMesh(CResMgr::GetInst()->FindRes<CMesh>(L"RectMesh"));
+	pDistortion->MeshRender()->SetMaterial(CResMgr::GetInst()->FindRes<CMaterial>(L"DistortionMtrl"));
+	SpawnGameObject(pDistortion, Vec3(0.f, 0.f, 500.f), 0);
+
+	
+
+
+
+	// 충돌 시킬 레이어 짝 지정
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Tile");
+	CCollisionMgr::GetInst()->LayerCheck(L"Monster", L"Tile");
+
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"MonsterProjectile");
+	CCollisionMgr::GetInst()->LayerCheck(L"Monster", L"PlayerProjectile");
+}

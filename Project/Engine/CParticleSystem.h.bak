@@ -1,0 +1,95 @@
+#pragma once
+#include "CRenderComponent.h"
+
+#include "ptr.h"
+#include "CParticleUpdateShader.h"
+
+class CStructuredBuffer;
+
+class CParticleSystem :
+    public CRenderComponent
+{
+private:
+    CStructuredBuffer*          m_ParticleBuffer;
+    CStructuredBuffer*          m_RWBuffer;
+    CStructuredBuffer*          m_ModuleDataBuffer;
+    
+    tParticleModule             m_ModuleData;
+    Ptr<CParticleUpdateShader>  m_UpdateCS;
+   
+    float                       m_AccTime;
+
+public:
+    void SetSpawnColor(Vec4 spawnColor) { m_ModuleData.vSpawnColor = spawnColor; }
+    void SetSpawnScaleMin(Vec4 spawnScaleMin ) { m_ModuleData.vSpawnScaleMin = spawnScaleMin; }
+    void SetSpawnScaleMax(Vec4 spawnScaleMax ) {m_ModuleData.vSpawnScaleMax = spawnScaleMax;}
+    void SetBoxShapeScale(Vec3 boxShapeScale ) {m_ModuleData.vBoxShapeScale = boxShapeScale;}
+    void SetSphereShapeRadius(float sphereShapeRadius ) { m_ModuleData.fSphereShapeRadius = sphereShapeRadius;}
+    void SetSpawnShapeType(int spawnShapeType ) { m_ModuleData.SpawnShapeType = spawnShapeType; }
+    void SetSpawnRate(int spawnRate ) {m_ModuleData.SpawnRate = spawnRate;}
+    void SetSpace(int space ) { m_ModuleData.Space = space;}
+    void SetMinLifeTime(float minLifeTime ) { m_ModuleData.MinLifeTime = minLifeTime;}
+    void SetMaxLifeTime(float maxLifeTime ) { m_ModuleData.MaxLifeTime = maxLifeTime; }
+    void SetStartColor(Vec4 startColor ) { m_ModuleData.vStartColor = startColor;}
+    void SetEndColor(Vec4 endColor) { m_ModuleData.vEndColor = endColor; }
+    void SetStartScale(float startScale ) {m_ModuleData.StartScale = startScale; }
+    void SetEndScale(float endScale ) { m_ModuleData.EndScale = endScale;}
+    void SetMaxParticleCount(int maxParticleCount ) { m_ModuleData.iMaxParticleCount = maxParticleCount;}
+    void SetVelocityDir(Vec4 velocityDir ) { m_ModuleData.vVelocityDir = velocityDir;}
+    void SetAddVelocityType(int addVelocityType ) { m_ModuleData.AddVelocityType = addVelocityType;}
+    void SetOffsetAngle(float offsetAngle ) { m_ModuleData.OffsetAngle = offsetAngle;}
+    void SetSpeed(float speed ) { m_ModuleData.Speed = speed;}
+    void SetStartDrag(float startDrag ) { m_ModuleData.StartDrag = startDrag;}
+    void SetEndDrag(float endDrag ) {m_ModuleData.EndDrag = endDrag;}
+    void SetNoiseTerm(float noiseTerm ) {m_ModuleData.fNoiseTerm = noiseTerm;}
+    void SetNoiseForce(float noiseForce ) { m_ModuleData.fNoiseForce = noiseForce;}
+    void SetVelocityAlignment(int velocityAlignment) { m_ModuleData.VelocityAlignment = velocityAlignment; }
+    void SetVelocityScale(int velocityScale) { m_ModuleData.VelocityScale = velocityScale; }
+    void SetMaxSpeed(float maxSpeed) { m_ModuleData.vMaxSpeed = maxSpeed; }
+    void SetMaxVelocityScale(Vec4 maxVelocityScale) { m_ModuleData.vMaxVelocityScale = maxVelocityScale; }
+    void SetModuleCheck(PARTICLE_MODULE _ParticleModule, int _Check) { m_ModuleData.ModuleCheck[(UINT)_ParticleModule] = _Check; }
+
+    Vec4 GetSpawnColor() const { return m_ModuleData.vSpawnColor; }
+    Vec4 GetSpawnScaleMin() const { return m_ModuleData.vSpawnScaleMin; }
+    Vec4 GetSpawnScaleMax() const { return m_ModuleData.vSpawnScaleMax; }
+    Vec3 GetBoxShapeScale() const { return m_ModuleData.vBoxShapeScale; }
+    float GetSphereShapeRadius() const { return m_ModuleData.fSphereShapeRadius; }
+    int GetSpawnShapeType() const { return m_ModuleData.SpawnShapeType; }
+    int GetSpawnRate() const { return m_ModuleData.SpawnRate; }
+    int GetSpace() const { return m_ModuleData.Space; }
+    float GetMinLifeTime() const { return m_ModuleData.MinLifeTime; }
+    float GetMaxLifeTime() const { return m_ModuleData.MaxLifeTime; }
+    Vec4 GetStartColor() const { return m_ModuleData.vStartColor; }
+    Vec4 GetEndColor() const { return m_ModuleData.vEndColor; }
+    float GetStartScale() const { return m_ModuleData.StartScale; }
+    float GetEndScale() const { return m_ModuleData.EndScale; }
+    int GetMaxParticleCount() const { return m_ModuleData.iMaxParticleCount; }
+    Vec4 GetVelocityDir() const { return m_ModuleData.vVelocityDir; }
+    int GetAddVelocityType() const { return m_ModuleData.AddVelocityType; }
+    float GetOffsetAngle() const { return m_ModuleData.OffsetAngle; }
+    float GetSpeed() const { return m_ModuleData.Speed; }
+    float GetStartDrag() const { return m_ModuleData.StartDrag; }
+    float GetEndDrag() const { return m_ModuleData.EndDrag; }
+    float GetNoiseTerm() const { return m_ModuleData.fNoiseTerm; }
+    float GetNoiseForce() const { return m_ModuleData.fNoiseForce; }
+    int GetVelocityAlignment() const { return m_ModuleData.VelocityAlignment; }
+    int GetVelocityScale() const { return m_ModuleData.VelocityScale; }
+    float GetMaxSpeed() const { return m_ModuleData.vMaxSpeed; }
+    Vec4 GetMaxVelocityScale() const { return m_ModuleData.vMaxVelocityScale; }
+    int GetModuleCheck(PARTICLE_MODULE _ParticleModule) const { return m_ModuleData.ModuleCheck[(UINT)_ParticleModule]; }
+
+
+public:
+    virtual void finaltick() override;
+    virtual void render() override;
+
+public:
+    void Save(const wstring& _strRelativePath);
+    void Load(const wstring& _strRelativePath);
+
+    CLONE(CParticleSystem);
+public:
+    CParticleSystem();
+    ~CParticleSystem();
+};
+
